@@ -25,9 +25,9 @@
     { name: 'Back', v: [0.68, -0.6, 0.32, 1.6] }
   ];
 
-  // Plot geometry inside a 240 x 240 viewBox: the unit square is 150px with room above and
-  // below for overshoot.
-  var X0 = 45, Y0 = 195, UNIT = 150, YMIN = -0.28, YMAX = 1.28;
+  // Plot geometry inside a 240 x 300 viewBox: the unit square is 130px, with enough room above
+  // and below for the usual overshoot curves (back in/out reaches -0.6 and 1.6).
+  var X0 = 55, Y0 = 215, UNIT = 130, YMIN = -0.65, YMAX = 1.65;
   var px = function (x) { return X0 + x * UNIT; };
   var py = function (y) { return Y0 - y * UNIT; };
 
@@ -56,7 +56,7 @@
       var playTimer = null;
 
       // ---- editor ----
-      var el = svg('svg', { class: 'curve', viewBox: '0 0 240 240', role: 'img', 'aria-label': 'Easing curve editor' });
+      var el = svg('svg', { class: 'curve', viewBox: '0 0 240 300', role: 'img', 'aria-label': 'Easing curve editor' });
       [0.25, 0.5, 0.75].forEach(function (t) {
         el.appendChild(svg('line', { class: 'grid-line', x1: px(t), y1: py(0), x2: px(t), y2: py(1) }));
         el.appendChild(svg('line', { class: 'grid-line', x1: px(0), y1: py(t), x2: px(1), y2: py(t) }));
@@ -111,37 +111,44 @@
         }
       }
 
-      function drag(hit, handle, ix, iy) {
-        hit.addEventListener('pointerdown', function (e) {
-          e.preventDefault();
-          hit.setPointerCapture(e.pointerId);
-          handle.classList.add('is-drag');
-          var box = el.getBoundingClientRect();
-          var scale = 240 / box.width;
-          // Keep the offset between pointer and handle centre, so the handle does not jump.
-          var offX = (e.clientX - box.left) * scale - px(value[ix]);
-          var offY = (e.clientY - box.top) * scale - py(value[iy]);
-          var move = function (ev) {
-            var next = value.slice();
-            next[ix] = ((ev.clientX - box.left) * scale - offX - X0) / UNIT;
-            next[iy] = (Y0 - ((ev.clientY - box.top) * scale - offY)) / UNIT;
-            if (ev.shiftKey) next[iy] = Math.round(next[iy] * 4) / 4;      // Shift snaps y to quarters
-            set(next, { play: false });
-          };
-          var up = function () {
-            handle.classList.remove('is-drag');
-            hit.removeEventListener('pointermove', move);
-            hit.removeEventListener('pointerup', up);
-            hit.removeEventListener('pointercancel', up);
-            play();
-          };
-          hit.addEventListener('pointermove', move);
-          hit.addEventListener('pointerup', up);
-          hit.addEventListener('pointercancel', up);
-        });
-      }
-      drag(hit1, h1, 0, 1);
-      drag(hit2, h2, 2, 3);
+      // One pointerdown handler for both handles: the nearer handle wins, so overlapping
+      // hit areas (handles close together) never grab the wrong one.
+      el.addEventListener('pointerdown', function (e) {
+        var box = el.getBoundingClientRect();
+        var scale = 240 / box.width;
+        var x = (e.clientX - box.left) * scale;
+        var y = (e.clientY - box.top) * scale;
+        var d1 = Math.hypot(x - px(value[0]), y - py(value[1]));
+        var d2 = Math.hypot(x - px(value[2]), y - py(value[3]));
+        if (Math.min(d1, d2) > 20) return;
+        var first = d1 <= d2;
+        var handle = first ? h1 : h2;
+        var ix = first ? 0 : 2;
+        var iy = ix + 1;
+        e.preventDefault();
+        el.setPointerCapture(e.pointerId);
+        handle.classList.add('is-drag');
+        // Keep the offset between pointer and handle centre, so the handle does not jump.
+        var offX = x - px(value[ix]);
+        var offY = y - py(value[iy]);
+        var move = function (ev) {
+          var next = value.slice();
+          next[ix] = ((ev.clientX - box.left) * scale - offX - X0) / UNIT;
+          next[iy] = (Y0 - ((ev.clientY - box.top) * scale - offY)) / UNIT;
+          if (ev.shiftKey) next[iy] = Math.round(next[iy] * 4) / 4;      // Shift snaps y to quarters
+          set(next, { play: false });
+        };
+        var up = function () {
+          handle.classList.remove('is-drag');
+          el.removeEventListener('pointermove', move);
+          el.removeEventListener('pointerup', up);
+          el.removeEventListener('pointercancel', up);
+          play();
+        };
+        el.addEventListener('pointermove', move);
+        el.addEventListener('pointerup', up);
+        el.addEventListener('pointercancel', up);
+      });
 
       // ---- preview ----
       var dot = h('div', { class: 'track-dot' });
