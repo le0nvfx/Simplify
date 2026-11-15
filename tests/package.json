@@ -1,0 +1,11 @@
+{
+  "name": "simplify-tests",
+  "private": true,
+  "description": "Dev-only checks for the Simplify After Effects extension. The extension itself has no dependencies and no build step.",
+  "scripts": {
+    "test": "node run.js"
+  },
+  "devDependencies": {
+    "acorn": "^8.12.0"
+  }
+}

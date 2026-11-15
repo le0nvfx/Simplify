@@ -1,0 +1,45 @@
+/* Simplify — design tokens. Everything is sized in rem so the UI scale setting (S / M / L)
+   only has to change the root font size. Targets Chromium 88 (CEP 11): no nesting, :has(),
+   color-mix() or @starting-style. */
+:root {
+  font-size: 12.5px;
+
+  /* surfaces — a step darker than After Effects' own panels so the panel reads as one object */
+  --bg: #121215;
+  --surface: #1a1a1e;
+  --raised: #222227;
+  --hover: #2a2a31;
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.13);
+
+  --text: #ededf2;
+  --text-2: #a3a3ad;
+  --text-3: #6c6c77;
+
+  --accent: #8b7cff;
+  --accent-hi: #a89dff;
+  --accent-soft: rgba(139, 124, 255, 0.14);
+  --accent-ink: #0e0b24;
+  --ok: #4ade80;
+  --warn: #fbbf24;
+  --err: #f87171;
+
+  --r-sm: 0.4rem;
+  --r-md: 0.64rem;
+  --r-lg: 0.96rem;
+
+  --shadow-pop: 0 0.6rem 2rem rgba(0, 0, 0, 0.55), 0 0 0 1px var(--line-strong);
+
+  /* motion — strong custom curves; the built-in keywords are too weak to feel intentional */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --t-press: 120ms;
+  --t-fast: 150ms;
+  --t-move: 200ms;
+
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", sans-serif;
+  --mono: "SF Mono", ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace;
+}
+
+:root[data-scale="s"] { font-size: 11.5px; }
+:root[data-scale="l"] { font-size: 14px; }
