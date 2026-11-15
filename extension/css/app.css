@@ -478,14 +478,15 @@ input[type="color"]::-webkit-color-swatch { border: 0; border-radius: 0.25rem; }
 /* ---- looks ---------------------------------------------------------------------------- */
 .looks { display: grid; grid-template-columns: repeat(auto-fill, minmax(7.4rem, 1fr)); gap: 0.5rem; }
 .look {
-  border: 0; padding: 0; text-align: left;
+  border: 0; padding: 0; text-align: left; height: 100%;
+  display: flex; flex-direction: column;
   border-radius: var(--r-md); overflow: hidden;
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--line);
   transition: transform var(--t-press) var(--ease-out);
 }
 .look:active { transform: scale(0.97); }
-.look-swatch { height: 3.4rem; }
+.look-swatch { height: 3.4rem; flex: none; }
 .look-name { padding: 0.4rem 0.55rem 0.5rem; font-weight: 550; font-size: 0.94rem; }
 .look-note { display: block; color: var(--text-3); font-weight: 400; font-size: 0.82rem; }
 

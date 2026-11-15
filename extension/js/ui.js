@@ -247,7 +247,10 @@
   function run(action, el, extraArgs) {
     if (busy) return Promise.resolve(null);       // one host call at a time
     busy = true;
-    var args = Object.assign({}, action.args || {}, optionValues(action), extraArgs || {});
+    var values = optionValues(action);
+    // action.build(values) turns option values into host arguments (used by expressions).
+    var args = action.build ? Object.assign({}, action.args || {}, action.build(values), extraArgs || {})
+      : Object.assign({}, action.args || {}, values, extraArgs || {});
     var started = Date.now();
     var spin = setTimeout(function () { if (el) el.setAttribute('data-state', 'busy'); }, 120);
 
