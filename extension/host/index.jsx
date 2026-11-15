@@ -159,7 +159,7 @@
     // ---- module loader --------------------------------------------------------------------
     var MODULES = [
         "json.jsx", "keys.jsx", "comps.jsx", "layers.jsx", "presets.jsx", "ease.jsx",
-        "expressions.jsx", "fx.jsx", "captions.jsx", "ai.jsx"
+        "expressions.jsx", "fx.jsx", "captions.jsx", "ai.jsx", "project.jsx"
     ];
 
     S.load = function (root) {

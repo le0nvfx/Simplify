@@ -5,10 +5,12 @@
  * Internal shape:  word = { start, end, text }      cue = { start, end, text, words: [word] }
  * Times are seconds.
  */
-(function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory();
-  else (root.SP = root.SP || {}).captions = factory();
-}(typeof self !== 'undefined' ? self : this, function () {
+(function (factory) {
+  // Check for a browser window first: After Effects panels run with Node enabled, so `module`
+  // exists there too, and exporting to it would leave the panel without SP.captions.
+  if (typeof window !== 'undefined' && window.document) (window.SP = window.SP || {}).captions = factory();
+  else module.exports = factory();
+}(function () {
   'use strict';
 
   // "00:01:02,500" | "01:02.5" | "62.5" -> seconds

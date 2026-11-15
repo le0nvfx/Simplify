@@ -251,7 +251,6 @@
     // action.build(values) turns option values into host arguments (used by expressions).
     var args = action.build ? Object.assign({}, action.args || {}, action.build(values), extraArgs || {})
       : Object.assign({}, action.args || {}, values, extraArgs || {});
-    var started = Date.now();
     var spin = setTimeout(function () { if (el) el.setAttribute('data-state', 'busy'); }, 120);
 
     return SP.bridge.call(action.call || action.id, args).then(function (res) {
@@ -281,7 +280,6 @@
       return null;
     }).then(function (data) {
       busy = false;
-      SP.log && SP.log(action.id, Date.now() - started);
       return data;
     });
   }

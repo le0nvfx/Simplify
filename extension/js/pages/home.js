@@ -14,6 +14,8 @@
         'layers.sequence', 'layers.nullParent'
       ], ctx.first)));
 
+      root.appendChild(ui.section('Safety net', ui.tiles(['project.saveIncrement', 'project.purge'])));
+
       var tips = h('div', { class: 'card' },
         h('div', null, h('strong', { text: 'Search is the fast lane. ' }),
           h('span', { class: 'muted', text: 'Click the panel and just start typing: effects, actions and expressions filter as you type, Enter applies the first hit, Shift+Enter puts an effect on a new adjustment layer.' })),

@@ -116,6 +116,18 @@
     done: function (d) { return n(d.keys, 'keyframe') + ' fitted on ' + n(d.layers, 'layer'); }
   });
 
+  // ---- project ----
+  define({
+    id: 'project.saveIncrement', icon: 'save', title: 'Save new version', undo: false,
+    desc: 'Saves a numbered copy and keeps working in it', keywords: 'increment incremental save backup version',
+    done: function (d) { return 'Saved as ' + d.name; }
+  });
+  define({
+    id: 'project.purge', icon: 'wand', title: 'Purge memory', undo: false,
+    desc: 'Clears cached frames when After Effects gets sluggish', keywords: 'purge cache ram memory slow lag',
+    done: function () { return 'Memory caches purged'; }
+  });
+
   // ---- misc ----
   define({
     id: 'expr.clear', icon: 'x', title: 'Remove expressions',

@@ -21,6 +21,14 @@ module.exports = {
     }
   },
 
+  'version names increment, keep zero padding and never collide'() {
+    const none = () => false;
+    assert.strictEqual(S.nextVersionName('edit_v07', none), 'edit_v08');
+    assert.strictEqual(S.nextVersionName('edit_v09', none), 'edit_v10');
+    assert.strictEqual(S.nextVersionName('edit', none), 'edit_v02');
+    assert.strictEqual(S.nextVersionName('cut 3', (n) => n === 'cut 4'), 'cut 5');
+  },
+
   'JSON round-trips nested data and escapes non-ASCII'() {
     const data = { a: [1, 2.5, -3e-7, null, true], s: 'q"uo\\te\n  é 日本', o: { k: 'v' } };
     const text = S.json.stringify(data);

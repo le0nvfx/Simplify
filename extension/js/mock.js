@@ -53,7 +53,9 @@
     'captions.readStyle': function () { return { font: 'Montserrat-ExtraBold', size: 72, fill: [1, 1, 1], strokeWidth: 6, stroke: [0, 0, 0], x: 0.5, y: 0.8 }; },
     'captions.source': function () { return { path: '/footage/interview.mp4', name: 'interview.mp4', sourceStart: 0, duration: 42, compStart: 0, stretch: 100, remapped: false }; },
     'ai.context': function () { return { aeVersion: 'preview', comp: { name: 'Main', width: 1920, height: 1080, frameRate: 30, duration: 20, time: 2, numLayers: 3 }, layers: [], selectedLayers: [], selectedProperties: [] }; },
-    'ai.run': function () { return { result: null }; }
+    'ai.run': function () { return { result: null }; },
+    'project.saveIncrement': function () { return { name: 'edit_v08.aep' }; },
+    'project.purge': function () { return {}; }
   };
 
   SP.mock = function (name, args) {

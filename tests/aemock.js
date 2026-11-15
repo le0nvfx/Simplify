@@ -102,7 +102,7 @@ function load() {
     KeyframeInterpolationType, PropertyType, PropertyValueType, KeyframeEase,
     CompItem: function CompItem() {}, AVLayer: function AVLayer() {}, TextLayer: function TextLayer() {},
     ShapeLayer: function ShapeLayer() {}, CameraLayer: function CameraLayer() {}, LightLayer: function LightLayer() {},
-    SolidSource: function SolidSource() {}, ParagraphJustification: { CENTER_JUSTIFY: 1 },
+    SolidSource: function SolidSource() {}, ParagraphJustification: { CENTER_JUSTIFY: 1 }, PurgeTarget: { ALL_CACHES: 1 },
     app: {
       version: '23.0', buildName: 'mock', isoLanguage: 'en_US', project: { activeItem: null, selection: [], items: [] },
       beginUndoGroup: (n) => undo.push(n), endUndoGroup: () => undo.push('end'), effects: [],
